@@ -1,4 +1,5 @@
-package my.books;
+package org.hwone;
+//package my.books;
 import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
