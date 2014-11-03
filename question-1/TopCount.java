@@ -50,8 +50,10 @@ public class TopCount {
       for (IntWritable val : values) {
         sum += val.get();
       }
+      if(sum >= 100){
       result.set(sum);
       context.write(key, result);
+      }
     }
   }
 
@@ -66,6 +68,7 @@ public class TopCount {
     job.setJarByClass(TopCount.class);
     job.setMapperClass(TokenizerMapper.class);
     job.setCombinerClass(IntSumReducer.class);
+    //setCombinerClass(Reduce.class);
     job.setReducerClass(IntSumReducer.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);

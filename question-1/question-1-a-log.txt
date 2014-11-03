@@ -2,3 +2,47 @@ Question 1. a)
 
 Please add your run log along with commands to below in this file.
 ===================================================================
+
+// compile WordCount.java and create a jar
+
+$ mkdir wordcount_classes
+$ javac -classpath /home/hadoop/hadoop-1.2.1/hadoop-core-1.2.1.jar:/home/hadoop/hadoop-1.2.1/lib/commons-cli-1.2.jar -d wordcount_classes WordCount.java 
+$ jar -cvf wordcount.jar -C wordcount_classes/ .
+
+added manifest
+adding: org/(in = 0) (out= 0)(stored 0%)
+adding: org/hwone/(in = 0) (out= 0)(stored 0%)
+adding: org/hwone/WordCount.class(in = 1860) (out= 996)(deflated 46%)
+adding: org/hwone/WordCount$IntSumReducer.class(in = 1759) (out= 743)(deflated 57%)
+adding: org/hwone/WordCount$TokenizerMapper.class(in = 1756) (out= 761)(deflated 56%)
+
+// create input & output files and move vanrikki-stool.txt into input/
+
+$ hadoop fs -mkdir input
+$ hadoop fs -copyFromLocal vanrikki-stool.txt input
+
+// Run the program with input file from input/ and save output file in output/
+
+$ hadoop jar wordcount.jar org.hwone.WordCount input output
+
+...
+hadooop logs like on slides 24 - 26 (I don't know how to copy them from commandline)
+...
+
+$ head -20 output/part-r-00000
+
+"	1
+"Aamull'	1
+"Ah",	1
+"Alas,	1
+"Anjalassa	1
+"Edespäin!"	1
+"Eespäin!"	1
+"Ei	2
+"Ellei	1
+"Ett'	1
+"Etähämpänä	1
+"Hakkaa	1
+"He,	1
+"Hei,	1
+"Hiis",	1

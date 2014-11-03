@@ -2,3 +2,9 @@ Question 1. b)
 
 Please add your run log along with commands to below in this file.
 ===================================================================
+added manifest
+adding: org/(in = 0) (out= 0)(stored 0%)
+adding: org/hwone/(in = 0) (out= 0)(stored 0%)
+adding: org/hwone/TopCount$TokenizerMapper.class(in = 1753) (out= 761)(deflated 56%)
+adding: org/hwone/TopCount.class(in = 1853) (out= 991)(deflated 46%)
+adding: org/hwone/TopCount$IntSumReducer.class(in = 1768) (out= 754)(deflated 57%)
