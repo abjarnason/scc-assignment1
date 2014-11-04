@@ -2,14 +2,13 @@ package org.hwone;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.util.*;
+import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -28,30 +27,27 @@ import org.json.*;
 *
 */
 
-public class QueryAuthor extends Configured implements Tool{
+public class QueryAuthor {
 
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
-
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 
-
+			Configuration conf = new Configuration();
+			String authorQuery = conf.get("authorQuery");
 
 			String author;
 			String book;
 			String line = value.toString();
 			String[] authorBookTuple = line.split("\\n");
 
-			Configuration conf = new Configuration();
-			String searchAuthor = conf.get("queryAuthor");
-
 			try{
 				for(int i = 0; i < authorBookTuple.length; i++){
 
-							if(authorBookTuple[i].equals(searchAuthor)){
+						if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
 							JSONObject obj = new JSONObject(authorBookTuple[i]);
 							author = obj.getString("author");
 							book = obj.getString("book");
-							context.write(new Text(author), new Text(book));								
+							context.write(new Text(author), new Text(book));
 						}
 
 				}
@@ -109,11 +105,7 @@ public class QueryAuthor extends Configured implements Tool{
 
 	  FileInputFormat.addInputPath(job, new Path(args[0]));
 	  FileOutputFormat.setOutputPath(job, new Path(args[1])); 
-	  
-	  String searchAuthor = args[2];
-    conf.set("queryAuthor", searchAuthor);
-    Job job = new Job(conf, "QueryAuthor");
-    job.setJarByClass(StringSearchDriver.class);
+	  conf.set("authorQuery", args[2]);
 
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
