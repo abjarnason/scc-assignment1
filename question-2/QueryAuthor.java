@@ -13,6 +13,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.conf.*;
 
 import java.io.IOException;
 import org.json.*;
@@ -31,6 +32,7 @@ public class QueryAuthor {
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 
+			Configuration conf = new Configuration();
 			String authorQuery = conf.get("authorQuery");
 
 			String author;
@@ -91,7 +93,7 @@ public class QueryAuthor {
 		}
 
 		Job job = new Job(conf, "QueryAuthor");
-	  job.setJarByClass(CombineBooks.class);
+	  job.setJarByClass(QueryAuthor.class);
 	  job.setMapperClass(Map.class);
 	  job.setReducerClass(Reduce.class);
 	  job.setMapOutputKeyClass(Text.class);
