@@ -30,10 +30,15 @@ import org.json.*;
 public class QueryAuthor {
 
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
+
+		String authorQuery;
+		public void configure(JobConf jc){
+			authorQuery = jc.get("authorQuery");
+		}
+
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 
-			Configuration conf = new Configuration();
-			String authorQuery = conf.get("authorQuery");
+
 
 			String author;
 			String book;
@@ -43,13 +48,13 @@ public class QueryAuthor {
 			try{
 				for(int i = 0; i < authorBookTuple.length; i++){
 
-						if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
+							if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
 							JSONObject obj = new JSONObject(authorBookTuple[i]);
 							author = obj.getString("author");
 							book = obj.getString("book");
-							context.write(new Text(author), new Text(book));
+							context.write(new Text(author), new Text(book));								
 						}
-
+						
 				}
 			}
 			catch(JSONException e){
