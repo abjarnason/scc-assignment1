@@ -9,6 +9,7 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -31,11 +32,6 @@ public class QueryAuthor {
 
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
 
-		String authorQuery;
-		public void configure(JobConf jc){
-			authorQuery = jc.get("authorQuery");
-		}
-
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 
 
@@ -44,16 +40,17 @@ public class QueryAuthor {
 			String book;
 			String line = value.toString();
 			String[] authorBookTuple = line.split("\\n");
+			String searchAuthor = conf.get("author");
 
 			try{
 				for(int i = 0; i < authorBookTuple.length; i++){
 
-							//if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
+							if(authorBookTuple[i].equals(searchAuthor)){
 							JSONObject obj = new JSONObject(authorBookTuple[i]);
 							author = obj.getString("author");
 							book = obj.getString("book");
 							context.write(new Text(author), new Text(book));								
-						//}
+						}
 
 				}
 			}
@@ -110,7 +107,9 @@ public class QueryAuthor {
 
 	  FileInputFormat.addInputPath(job, new Path(args[0]));
 	  FileOutputFormat.setOutputPath(job, new Path(args[1])); 
-	  conf.set("authorQuery", args[2]);
+	  String searchAuthor = args[2];
+	  Configuration conf = new Configuration();
+    conf.set("author", searchAuthor);
 
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
