@@ -28,7 +28,7 @@ import org.json.*;
 *
 */
 
-public class QueryAuthor {
+public class QueryAuthor extends Configured {
 
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
 
