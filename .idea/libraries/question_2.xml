@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="question-2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/question-2/queryauthor.jar!/" />
+      <root url="jar://$PROJECT_DIR$/question-2/combinebooks.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
