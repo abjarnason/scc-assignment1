@@ -2,7 +2,7 @@ package org.hwone;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.util.GenericOptionsParser;
+import org.apache.hadoop.util.*;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -28,7 +28,7 @@ import org.json.*;
 *
 */
 
-public class QueryAuthor extends Configured {
+public class QueryAuthor extends Configured implements Tool{
 
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
 
@@ -40,7 +40,9 @@ public class QueryAuthor extends Configured {
 			String book;
 			String line = value.toString();
 			String[] authorBookTuple = line.split("\\n");
-			String searchAuthor = conf.get("author");
+
+			Configuration conf = new Configuration();
+			String searchAuthor = conf.get("queryAuthor");
 
 			try{
 				for(int i = 0; i < authorBookTuple.length; i++){
@@ -107,9 +109,11 @@ public class QueryAuthor extends Configured {
 
 	  FileInputFormat.addInputPath(job, new Path(args[0]));
 	  FileOutputFormat.setOutputPath(job, new Path(args[1])); 
+	  
 	  String searchAuthor = args[2];
-	  Configuration conf = new Configuration();
-    conf.set("author", searchAuthor);
+    conf.set("queryAuthor", searchAuthor);
+    Job job = new Job(conf, "QueryAuthor");
+    job.setJarByClass(StringSearchDriver.class);
 
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
