@@ -129,7 +129,7 @@ public class QueryAuthor {
 		Job job = new Job(conf, "QueryAuthor");
 		job.setJarByClass(QueryAuthor.class);
 		job.setMapperClass(Map.class);
-		job.set.CombinerClass(Combine.class);
+		job.setCombinerClass(Combine.class);
 		job.setReducerClass(Reduce.class);
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(Text.class);
