@@ -108,7 +108,7 @@ public class QueryAuthor {
 		}
 
 		String input = args[0] + " " + args[1] + " " + args[2];
-		conf.set("author", input;
+		conf.set("author", input);
 
 		Job job = new Job(conf, "QueryAuthor");
 		job.setJarByClass(QueryAuthor.class);
