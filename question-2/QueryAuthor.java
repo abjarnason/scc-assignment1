@@ -32,9 +32,6 @@ public class QueryAuthor {
 	public static class Map extends Mapper<LongWritable, Text, Text, Text>{
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 
-			Configuration conf = new Configuration();
-			String authorQuery = conf.get("authorQuery");
-
 			String author;
 			String book;
 			String line = value.toString();
@@ -43,12 +40,12 @@ public class QueryAuthor {
 			try{
 				for(int i = 0; i < authorBookTuple.length; i++){
 
-						if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
-							JSONObject obj = new JSONObject(authorBookTuple[i]);
-							author = obj.getString("author");
-							book = obj.getString("book");
-							context.write(new Text(author), new Text(book));
-						}
+					if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
+						JSONObject obj = new JSONObject(authorBookTuple[i]);
+						author = obj.getString("author");
+						book = obj.getString("book");
+						context.write(new Text(author), new Text(book));
+					}
 
 				}
 			}
@@ -58,7 +55,22 @@ public class QueryAuthor {
 		}
 	}
 
+
+
 	public static class Reduce extends Reducer<Text,Text,NullWritable,Text>{
+
+		String authorName;
+
+		@Override
+		protected void setup(Context context) throws IOException, InterruptedException {
+			super.setup(context);
+
+
+			authorName = context.getConfiguration().get("author");
+
+
+			System.out.println("Author name: " + authorName);
+		}
 
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException{
 
@@ -74,8 +86,11 @@ public class QueryAuthor {
 				}
 				obj.put("books", array);
 				obj.put("author", key.toString());
-				context.write(NullWritable.get(), new Text(obj.toString()));
+				String query = key.toString();
 
+				if(query.equals(authorName)){
+					context.write(NullWritable.get(), new Text(obj.toString()));
+				}
 			}
 			catch(JSONException e){
 				e.printStackTrace();
@@ -86,26 +101,31 @@ public class QueryAuthor {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		.getRemainingArgs();
 		if (otherArgs.length < 3) {
 			System.err.println("Usage: QueryAuthor <in> <out> <author>");
 			System.exit(2);
 		}
 
-		Job job = new Job(conf, "QueryAuthor");
-	  job.setJarByClass(QueryAuthor.class);
-	  job.setMapperClass(Map.class);
-	  job.setReducerClass(Reduce.class);
-	  job.setMapOutputKeyClass(Text.class);
-	  job.setMapOutputValueClass(Text.class);
-	  job.setOutputKeyClass(NullWritable.class);
-	  job.setOutputValueClass(Text.class);
-	  job.setInputFormatClass(TextInputFormat.class);
-	  job.setOutputFormatClass(TextOutputFormat.class);
+		String input = args[0] + " " + args[1] + " " + args[2];
+		conf.set("author", input;
 
-	  FileInputFormat.addInputPath(job, new Path(args[0]));
-	  FileOutputFormat.setOutputPath(job, new Path(args[1])); 
-	  conf.set("authorQuery", args[2]);
+		Job job = new Job(conf, "QueryAuthor");
+		job.setJarByClass(QueryAuthor.class);
+		job.setMapperClass(Map.class);
+		job.setReducerClass(Reduce.class);
+		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputValueClass(Text.class);
+		job.setOutputKeyClass(NullWritable.class);
+		job.setOutputValueClass(Text.class);
+		job.setInputFormatClass(TextInputFormat.class);
+		job.setOutputFormatClass(TextOutputFormat.class);
+		job.setCombinerClass(Combine_books.class);
+
+		FileInputFormat.addInputPath(job, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+		//conf.set("authorQuery", args[2]);
+
 
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}

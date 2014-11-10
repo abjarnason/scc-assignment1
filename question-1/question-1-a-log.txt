@@ -29,6 +29,7 @@ $ hadoop jar wordcount.jar org.hwone.WordCount input output
 hadooop logs like on slides 24 - 26 (I don't know how to copy them from commandline)
 ...
 
+$ hadoop fs -copyToLocal output output
 $ head -20 output/part-r-00000
 
 "	1
