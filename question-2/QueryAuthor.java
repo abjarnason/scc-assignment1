@@ -79,11 +79,10 @@ public class QueryAuthor {
 
 			Configuration conf = context.getConfiguration();
 			String input = conf.get("authorName");
-			String author = null;
 
 			try{
 				JSONArray array = new JSONArray();
-				String[] books = null;
+				String[] book = null;
 				for(Text val : values){
 					book = val.toString().split(",");
 				}
@@ -91,11 +90,12 @@ public class QueryAuthor {
 					JSONObject jsonObj = new JSONObject().put("book", book[i]);
 					array.put(jsonObj);
 				}
+				JSONObject obj = new JSONObject();
 				obj.put("books", array);
 				obj.put("author", key.toString());
-				String query = key.toString();
+				String author = obj.getString("author");
 
-				if(input.equals(query)){
+				if(input.equals(author)){
 					context.write(NullWritable.get(), new Text(obj.toString()));
 				}
 			}
