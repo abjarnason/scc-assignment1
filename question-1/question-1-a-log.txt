@@ -25,12 +25,55 @@ $ hadoop fs -copyFromLocal vanrikki-stool.txt input
 
 $ hadoop jar wordcount.jar org.hwone.WordCount input output
 
-...
-hadooop logs like on slides 24 - 26 (I don't know how to copy them from commandline)
-...
+Warning: $HADOOP_HOME is deprecated.
+
+14/11/10 11:57:01 INFO input.FileInputFormat: Total input paths to process : 1
+14/11/10 11:57:01 INFO util.NativeCodeLoader: Loaded the native-hadoop library
+14/11/10 11:57:01 WARN snappy.LoadSnappy: Snappy native library not loaded
+14/11/10 11:57:02 INFO mapred.JobClient: Running job: job_201411101027_0008
+14/11/10 11:57:03 INFO mapred.JobClient:  map 0% reduce 0%
+14/11/10 11:57:26 INFO mapred.JobClient:  map 100% reduce 0%
+14/11/10 11:57:39 INFO mapred.JobClient:  map 100% reduce 33%
+14/11/10 11:57:43 INFO mapred.JobClient:  map 100% reduce 100%
+14/11/10 11:57:50 INFO mapred.JobClient: Job complete: job_201411101027_0008
+14/11/10 11:57:50 INFO mapred.JobClient: Counters: 29
+14/11/10 11:57:50 INFO mapred.JobClient:   Job Counters 
+14/11/10 11:57:50 INFO mapred.JobClient:     Launched reduce tasks=1
+14/11/10 11:57:50 INFO mapred.JobClient:     SLOTS_MILLIS_MAPS=28793
+14/11/10 11:57:50 INFO mapred.JobClient:     Total time spent by all reduces waiting after reserving slots (ms)=0
+14/11/10 11:57:50 INFO mapred.JobClient:     Total time spent by all maps waiting after reserving slots (ms)=0
+14/11/10 11:57:50 INFO mapred.JobClient:     Launched map tasks=1
+14/11/10 11:57:50 INFO mapred.JobClient:     Data-local map tasks=1
+14/11/10 11:57:50 INFO mapred.JobClient:     SLOTS_MILLIS_REDUCES=17111
+14/11/10 11:57:50 INFO mapred.JobClient:   File Output Format Counters 
+14/11/10 11:57:50 INFO mapred.JobClient:     Bytes Written=108257
+14/11/10 11:57:50 INFO mapred.JobClient:   FileSystemCounters
+14/11/10 11:57:50 INFO mapred.JobClient:     FILE_BYTES_READ=147003
+14/11/10 11:57:50 INFO mapred.JobClient:     HDFS_BYTES_READ=140945
+14/11/10 11:57:50 INFO mapred.JobClient:     FILE_BYTES_WRITTEN=405387
+14/11/10 11:57:50 INFO mapred.JobClient:     HDFS_BYTES_WRITTEN=108257
+14/11/10 11:57:50 INFO mapred.JobClient:   File Input Format Counters 
+14/11/10 11:57:50 INFO mapred.JobClient:     Bytes Read=140822
+14/11/10 11:57:50 INFO mapred.JobClient:   Map-Reduce Framework
+14/11/10 11:57:50 INFO mapred.JobClient:     Map output materialized bytes=147003
+14/11/10 11:57:50 INFO mapred.JobClient:     Map input records=5153
+14/11/10 11:57:50 INFO mapred.JobClient:     Reduce shuffle bytes=147003
+14/11/10 11:57:50 INFO mapred.JobClient:     Spilled Records=19458
+14/11/10 11:57:50 INFO mapred.JobClient:     Map output bytes=215587
+14/11/10 11:57:50 INFO mapred.JobClient:     Total committed heap usage (bytes)=176099328
+14/11/10 11:57:50 INFO mapred.JobClient:     CPU time spent (ms)=10220
+14/11/10 11:57:50 INFO mapred.JobClient:     Combine input records=18890
+14/11/10 11:57:50 INFO mapred.JobClient:     SPLIT_RAW_BYTES=123
+14/11/10 11:57:50 INFO mapred.JobClient:     Reduce input records=9729
+14/11/10 11:57:50 INFO mapred.JobClient:     Reduce input groups=9729
+14/11/10 11:57:50 INFO mapred.JobClient:     Combine output records=9729
+14/11/10 11:57:50 INFO mapred.JobClient:     Physical memory (bytes) snapshot=260153344
+14/11/10 11:57:50 INFO mapred.JobClient:     Reduce output records=9729
+14/11/10 11:57:50 INFO mapred.JobClient:     Virtual memory (bytes) snapshot=1501589504
+14/11/10 11:57:50 INFO mapred.JobClient:     Map output records=18890
 
 $ hadoop fs -copyToLocal output output
-$ head -20 output/part-r-00000
+$ head -20 output-stool-a/part-r-00000
 
 "	1
 "Aamull'	1
@@ -47,3 +90,8 @@ $ head -20 output/part-r-00000
 "He,	1
 "Hei,	1
 "Hiis",	1
+"Hoh,	1
+"Huomenna,	1
+"Hurraa	1
+"Hurraa,	2
+"Hurraan	1
