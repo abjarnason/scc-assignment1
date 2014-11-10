@@ -95,7 +95,7 @@ public class QueryAuthor {
 				obj.put("author", key.toString());
 				String query = key.toString();
 
-				if(input.equals(authorName)){
+				if(input.equals(query)){
 					context.write(NullWritable.get(), new Text(obj.toString()));
 				}
 			}
