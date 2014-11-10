@@ -40,12 +40,10 @@ public class QueryAuthor {
 			try{
 				for(int i = 0; i < authorBookTuple.length; i++){
 
-					if(authorBookTuple[i].equalsIgnoreCase(authorQuery)){
 						JSONObject obj = new JSONObject(authorBookTuple[i]);
 						author = obj.getString("author");
 						book = obj.getString("book");
 						context.write(new Text(author), new Text(book));
-					}
 
 				}
 			}
@@ -120,7 +118,7 @@ public class QueryAuthor {
 		job.setOutputValueClass(Text.class);
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
-		job.setCombinerClass(IntSumReducer.class);
+		//job.setCombinerClass(IntSumReducer.class);
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));

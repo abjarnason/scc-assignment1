@@ -16,7 +16,7 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.IOException;
 import org.json.*;
-import java.util.StringTokenizer
+import java.util.StringTokenizer;
 
 /*
 *  Modify this file to combine books from the same other into
@@ -59,7 +59,7 @@ public class CombineBooks {
 			String books = null;
 			for(Text val : values){
 				if(books != null){
-					books = booklist + "," + val.toString();
+					books = books + "," + val.toString();
 				}
 				else{
 					books = val.toString();
