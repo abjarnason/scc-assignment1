@@ -2,3 +2,5 @@ Question 1. a)
 
 Please add your 6-10 sentence explanation to below in this file.
 =================================================================
+
+The first step was to make a directory for the wordcount classes. Then WordCount.java was compiled using hadoop jars and finally the wordcount.jar file was prepared. Following that the input/ folder was created in the hadoop file system and vanrikki-stool.txt file copied from the local file system into it. Then hadoop was used to run the WordCount program saving the results in the output/ folder in the hadoop file system. To read the results the output/ folder had to be copied to the local filesystem.

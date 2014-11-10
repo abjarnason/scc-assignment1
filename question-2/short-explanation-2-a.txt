@@ -2,3 +2,5 @@ Question 2. a)
 
 Please add your 6-10 sentence explanation to below in this file.
 =================================================================
+
+The first step is to add java-json.jar to the lib/ filder of hadoop. Then CombineBooks.java is compiled and combinebooks.jar created. The classes are stored in the combinebooks_classes/ folder. The author_book_tuple.txt file is then moved into the input/ folder in the hadoop file system. Finally the program is made to run on the hadoop node and the results are saved in the output/ folder. To view the results the output/ folder has to be copied to the local file system first.

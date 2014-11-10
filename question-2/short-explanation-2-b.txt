@@ -2,3 +2,5 @@ Question 2. b)
 
 Please add your 6-10 sentence explanation to below in this file.
 =================================================================
+
+Pretty much the same here as before. Compile QueryAuthor.java and create a jar. Since author_book_tuple.txt is still in the hadoop file system we don't have to copy it again but we have to delete output/ instead. Then we run the program with hadoop but with "J. K. Rowling" as an extra input. We then copy the output/ folder from the hadoop file system into J. K. Rowling-output-b/ before we can read the results..

@@ -16,7 +16,7 @@ adding: org/hwone/CombineBooks$Map.class(in = 1899) (out= 821)(deflated 56%)
 adding: org/hwone/CombineBooks$Reduce.class(in = 2171) (out= 963)(deflated 55%)
 adding: org/hwone/CombineBooks.class(in = 1877) (out= 962)(deflated 48%)
 
-// create input/ folder and move .txt file into it..
+// create input/ folder and move author_book_tuple.txt file into it..
 
 $ hadoop fs -mkdir input
 $ hadoop fs -copyFromLocal author_book_tuple.txt input
@@ -78,7 +78,7 @@ Warning: $HADOOP_HOME is deprecated.
 
 // finally we check the output
 
-$ hadoop fs -copyToLocal output output
+$ hadoop fs -copyToLocal output output-a
 $ head -20 output/part-r-00000
 
 {"author":" Antonio Zirardini","books":[{"book":"Degli antichi edifizi profani di Ravenna libri due"}]}
@@ -103,8 +103,4 @@ $ head -20 output/part-r-00000
 {"author":"\"Ren wu\" bian ji bu","books":[{"book":"Zuo ye chang feng yi zhi qin ="}]}
 
 // in this output we can actually only see one example of more than one book by an author ("\"BB,\""). And then put it into the output-a/ directory
-
-$ cp output/part-r-00000 output-a
-
-
 
