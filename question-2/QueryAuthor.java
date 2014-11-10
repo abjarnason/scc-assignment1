@@ -17,6 +17,7 @@ import org.apache.hadoop.conf.*;
 
 import java.io.IOException;
 import org.json.*;
+import java.util.StringTokenizer;
 
 /*
 *  Modify this file to return single combined books from the author which
@@ -55,40 +56,48 @@ public class QueryAuthor {
 		}
 	}
 
+	public static class Combine extends Reducer<Text, Text, Text, Text>{
+
+		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException{
+
+			String books = null;
+
+			for(Text val : values){
+				if(books != null){
+					books = books + "," + val.toString();
+				}
+				else{
+					books = val.toString();
+				}
+			}
+			context.write(key, new Text(books));
+		}
+	}
 
 
 	public static class Reduce extends Reducer<Text,Text,NullWritable,Text>{
 
-		String authorName;
-
-		@Override
-		protected void setup(Context context) throws IOException, InterruptedException {
-			super.setup(context);
-
-
-			authorName = context.getConfiguration().get("author");
-
-
-			System.out.println("Author name: " + authorName);
-		}
-
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException{
 
+			Configuration conf = context.getConfiguration();
+			String input = conf.get("authorName");
+			String author = null;
+
 			try{
-
-				JSONObject obj = new JSONObject();
 				JSONArray array = new JSONArray();
+				String[] books = null;
 				for(Text val : values){
-
-					JSONObject tempObj = new JSONObject().put("book", val.toString());
-					array.put(tempObj);
-					
+					book = val.toString().split(",");
+				}
+				for(int i = 0; i < book.length; i++){
+					JSONObject jsonObj = new JSONObject().put("book", book[i]);
+					array.put(jsonObj);
 				}
 				obj.put("books", array);
 				obj.put("author", key.toString());
 				String query = key.toString();
 
-				if(query.equals(authorName)){
+				if(input.equals(authorName)){
 					context.write(NullWritable.get(), new Text(obj.toString()));
 				}
 			}
@@ -107,8 +116,17 @@ public class QueryAuthor {
 			System.exit(2);
 		}
 
-		String input = args[0] + " " + args[1] + " " + args[2];
-		conf.set("author", input);
+		String input = null;
+		for(int i = 2; i < otherArgs.length; i++){
+			if(input != null){
+				input = input + " " + otherArgs[i];
+			}
+			else{
+				input = otherArgs[i];
+			}
+		}
+
+		conf.set("authorName", input);
 
 		Job job = new Job(conf, "QueryAuthor");
 		job.setJarByClass(QueryAuthor.class);

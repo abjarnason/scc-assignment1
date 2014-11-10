@@ -6,7 +6,7 @@ Please add your run log along with commands to below in this file.
 //compile CombineBooks.java and create a jar (java-json.jar has to be added to the lib/ directory of hadoop-1.2.1)
 
 $ mkdir combinebooks_classes
-$ javac -classpath /home/hadoop/hadoop-1.2.1/hadoop-core-1.2.1.jar:/home/hadoop/hadoop-1.2.1/lib/commons-cli-1.2.jar:/home/hadoop/hadoop-1.2.1/lib/java-json.jar
+$ javac -classpath /home/hadoop/hadoop-1.2.1/hadoop-core-1.2.1.jar:/home/hadoop/hadoop-1.2.1/lib/commons-cli-1.2.jar:/home/hadoop/hadoop-1.2.1/lib/java-json.jar CombineBooks.java
 $ jar -cvf combinebooks.jar -C combinebooks_classes/ .
 
 added manifest
