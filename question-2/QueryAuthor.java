@@ -129,6 +129,7 @@ public class QueryAuthor {
 		Job job = new Job(conf, "QueryAuthor");
 		job.setJarByClass(QueryAuthor.class);
 		job.setMapperClass(Map.class);
+		job.set.CombinerClass(Combine.class);
 		job.setReducerClass(Reduce.class);
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(Text.class);
@@ -136,7 +137,6 @@ public class QueryAuthor {
 		job.setOutputValueClass(Text.class);
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
-		//job.setCombinerClass(IntSumReducer.class);
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
